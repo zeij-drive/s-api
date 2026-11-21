@@ -1,0 +1,17 @@
+services:
+  starryapi:
+    image: ghcr.io/${GITHUB_REPOSITORY:-starryapi/starryapi}:latest
+    build: .
+    restart: unless-stopped
+    environment:
+      ADDR: ":8080"
+      STORE_PATH: /data/state.json
+      ADMIN_TOKEN: ${ADMIN_TOKEN:?Set a strong ADMIN_TOKEN in your environment}
+      MASTER_KEY: ${MASTER_KEY:-}
+    ports:
+      - "${PORT:-8080}:8080"
+    volumes:
+      - starryapi-data:/data
+
+volumes:
+  starryapi-data:
